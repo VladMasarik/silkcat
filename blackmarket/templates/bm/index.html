@@ -1,1 +1,7 @@
-YES
+<ul>
+{% for cat in cat_list %}
+    <li>{{ cat.name }} || {{ cat.size}}</li>
+    {% load static %}
+    <img src="{% static 'blackmarket/' %}{{ cat.image_path }}" alt="Katto">
+{% endfor %}
+</ul>
