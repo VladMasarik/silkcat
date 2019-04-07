@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-
+from django.template import loader
 
 def index(request):
-    context = {}
-    return HttpResponse(render(request, "/home/ubuntu/silkcat/blackmarket/templates/bm/index.html", context))
+    qqq = "asdasd"
+    template = loader.get_template('bm/index.html')
+    context = {
+        'latest_question_list': qqq,
+    }
+    return HttpResponse(template.render(context, request))
