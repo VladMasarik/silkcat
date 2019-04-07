@@ -6,6 +6,7 @@ from blackmarket.models import Cat
 
 def index(request):
 
+    #cat = Cat.objects.create(name="wizard", size="small", color="red", image_path="/path")
 
     
     context = {}
@@ -15,11 +16,8 @@ def index(request):
 
 
 def detail(request, id):
-    out = Cat.objects.create(name="wizard", size="small", color="red", image_path="/path")
-    print("#######", out, "#######")
-    #cat = Cat.objects.get(id=id)
 
-    cat = Cat()
+    cat = Cat.objects.get(id=id)
 
     context = {
         "name" : cat.name,
@@ -39,3 +37,8 @@ def edit(request, id):
 def upload(request, id):
     context = {}
     return HttpResponse(render(request, "bm/upload.html", context))
+
+
+def delete(request, id):
+    Cat.objects.get(id=id).delete()
+    return HttpResponse()
