@@ -1,11 +1,41 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.template import loader
+from blackmarket.models import Cat
+
+
 
 def index(request):
-    qqq = "asdasd"
-    template = loader.get_template('bm/index.html')
+
+
+    
+    context = {}
+
+
+    return HttpResponse(render(request, "bm/index.html", context))
+
+
+def detail(request, id):
+    out = Cat.objects.create("wizard", "small", "red", "/path")
+    print("#######", out, "#######")
+    #cat = Cat.objects.get(id=id)
+
+    cat = Cat()
+
     context = {
-        'latest_question_list': qqq,
+        "name" : cat.name,
+        "size" : cat.size,
+        "color" : cat.color,
+        "image" : cat.image_path
     }
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(render(request, "bm/detail.html", context))
+
+
+def edit(request, id):
+    context = {}
+    return HttpResponse(render(request, "bm/edit.html", context))
+
+
+
+def upload(request, id):
+    context = {}
+    return HttpResponse(render(request, "bm/upload.html", context))
