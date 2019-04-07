@@ -15,7 +15,7 @@ def index(request):
 
 
 def detail(request, id):
-    out = Cat.objects.create("wizard", "small", "red", "/path")
+    out = Cat.objects.create(name="wizard", size="small", color="red", image_path="/path")
     print("#######", out, "#######")
     #cat = Cat.objects.get(id=id)
 
