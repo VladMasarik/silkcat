@@ -42,7 +42,14 @@ def detail(request, id):
 
 
 def edit(request, id):
-    context = {}
+    cat = Cat.objects.get(id=id)
+
+    context = {
+        "name" : cat.name,
+        "size" : cat.size,
+        "color" : cat.color,
+        "image" : cat.image_path
+    }
     return HttpResponse(render(request, "bm/edit.html", context))
 
 
