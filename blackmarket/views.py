@@ -36,7 +36,8 @@ def detail(request, id):
         "name" : cat.name,
         "size" : cat.size,
         "color" : cat.color,
-        "image" : cat.image_path
+        "image" : cat.image_path,
+        "id": cat.id
     }
     return HttpResponse(render(request, "bm/detail.html", context))
 
@@ -48,7 +49,8 @@ def edit(request, id):
         "name" : cat.name,
         "size" : cat.size,
         "color" : cat.color,
-        "image" : cat.image_path
+        "image" : cat.image_path,
+        "id": cat.id
     }
     return HttpResponse(render(request, "bm/edit.html", context))
 
