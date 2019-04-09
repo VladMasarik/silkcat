@@ -61,17 +61,16 @@ def edit(request, id):
             cat.image = form2.cleaned_data["img"]
             cat.save()
 
-    dic = {
-        "name": cat.name,
-        "size": cat.size,
-        "color": cat.color
-    }
-    form = EditTextInputForm(initial=dic)
     imgform = EditImageInputForm()
+    name = Name(initial={"name": cat.name})
+    size = Size(initial={"size": cat.size})
+    color = Color(initial={"color": cat.color})
     context = {
-        "form": form,
         "imageinput": imgform,
         "cat": cat,
+        "name": name,
+        "size": size,
+        "color": color
     }
     return HttpResponse(render(request, "bm/edit.html", context))
 
@@ -112,7 +111,13 @@ class ImageInputForm(forms.Form):
 class EditImageInputForm(forms.Form):
     img = forms.ImageField(required=False, label='Kitty image:')
 
-class EditTextInputForm(forms.Form):
-    name = forms.CharField(label='Cat name', max_length=100)
-    size = forms.CharField(label='Cat size', max_length=100)
+
+
+class Color(forms.Form):
     color = forms.CharField(label='Cat color', max_length=100)
+
+class Size(forms.Form):
+    size = forms.CharField(label='Cat size', max_length=100)
+
+class Name(forms.Form):
+    name = forms.CharField(label='Cat name', max_length=100)
