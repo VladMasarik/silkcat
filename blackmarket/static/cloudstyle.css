@@ -9,7 +9,7 @@ body, html {
 }
 
 /* Create a Parallax Effect */
-.bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4 {
+.bgimg-1, .bgimg-2, .bgimg-3, .bgimg-4, .bgimg-5 {
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -22,7 +22,7 @@ body, html {
   min-height: 100%;
 }
 
-/* Second image (Portfolio) */
+/* Second image (Cats portfolio) */
 .bgimg-2 {
   background-image: url("images/greycat.jpg");
   min-height: 400px;
@@ -36,6 +36,11 @@ body, html {
 
 .bgimg-4 {
   background-image: url("images/alotofcats.jpg");
+  min-height: 400px;
+}
+
+.bgimg-5 {
+  background-image: url("images/blackwhite.jpg");
   min-height: 400px;
 }
 
