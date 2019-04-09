@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from blackmarket.models import Cat
+from django import forms
+from django.views.decorators.csrf import csrf_exempt
 
 """
 wizard
@@ -55,13 +57,39 @@ def edit(request, id):
     return HttpResponse(render(request, "bm/edit.html", context))
 
 
-
+@csrf_exempt
 def upload(request):
-    Cat.objects.create(name="wizard", size="small", color="red", image_path="liquid.jpg")
-    context = {}
+    if request.method == 'POST':
+        print("method>>>",request.method)
+        form = ImaageForm(request.POST)
+        form2 = OneForm(request.POST, request.FILES)
+        print("Errors:", form.errors.as_data())
+        print("form>>>",form)
+        print("valid>>", form.is_valid())
+        if form.is_valid():
+            print("<<<<<<", form.cleaned_data, ">>>>>>>>>")
+        print("Errors:", form2.errors.as_data())
+        print("form>>>",form2)
+        print("valid>>", form2.is_valid())
+        if form2.is_valid():
+            print("<<<<<<", form2.cleaned_data, ">>>>>>>>>")
+    form = ImaageForm()
+    imgform = OneForm()
+    context = {
+        "form": form,
+        "imageinput": imgform
+    }
     return HttpResponse(render(request, "bm/upload.html", context))
 
 
 def delete(request, id):
     Cat.objects.get(id=id).delete()
     return HttpResponse()
+
+class ImaageForm(forms.Form):
+    name = forms.CharField(label='Cats name', max_length=100)
+    size = forms.CharField(label='Cats size', max_length=100)
+    color = forms.CharField(label='Cats color', max_length=100)
+
+class OneForm(forms.Form):
+    img = forms.ImageField()

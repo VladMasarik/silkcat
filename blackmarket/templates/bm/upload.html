@@ -37,7 +37,6 @@ body {
 /* Main column */
 .main {   
       flex: 70%;
-    background-image: url(add.jpg);
     background-position: center;
     padding: 120px;
 }
@@ -54,30 +53,12 @@ body {
 
 <div class="row">
   <div class="main">
-      <p>Name:</p>
-      <input type="text">
-      <p>Color:</p>
-      <input type="text">
-      <p>Size:</p>
-      <input type="text">
-      <p>Picture:</p>
-      <input type="file">
-      <div id="image_div">
-        Click to upload an image:
-      <button onclick="Image()">Click!</button>
-    </div>
-
-<script>
-  
-function Image() {
-  var x = document.createElement("INPUT");
-  x.setAttribute("type", "file");
-  B=document.getElementById("image_div");
-  B.appendChild(x);
-}
-</script>
-
-   
+    <form action="upload" method="POST" enctype="multipart/form-data">
+      {{form}}
+      {{imageinput}}
+      <input type="submit" value="Upload">
+    </form>
+  </div>   
 </div>
   
 
