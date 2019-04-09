@@ -20,9 +20,6 @@
     <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
     <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> CATS</a>
     <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red">
-      <i class="fa fa-search"></i>
-    </a>
   </div>
 
   <!-- Navbar on small screens -->
@@ -30,7 +27,6 @@
     <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
     <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">PORTFOLIO</a>
     <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
-    <a href="#" class="w3-bar-item w3-button">SEARCH</a>
   </div>
 </div>
 
@@ -47,15 +43,13 @@
 <div class="w3-content w3-container w3-padding-64" id="about">
   <h3 class="w3-center">ABOUT</h3>
   <p class="w3-center"><em>Cloud Application Development Project</em></p>
-  <p>We have created a fictional website. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-    qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <p>Our task was to develop a web application and deploy it on an IaaS platform. The following functionalities were required for the web application:
+  upload of media files, storage of additional information for the media files, functionality to retrieve the media file together with the additional information.
+  The deployment required: registration with a demo account on an IaaS provider, creating a Virtual Server and installing middleware, deploying the application and creating and storing virtual machine image.</p>
   <div class="w3-row">
     <div class="w3-col m6 w3-center w3-padding-large">
       <img src="{% static '/images/bwcloud.png' %}" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="bwCloud logo" width="300">
     </div>
-
-    <!-- Hide this text on small devices -->
     <div class="w3-col m6 w3-hide-small w3-padding-large">
       <p>About bwCloud. I am lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
         dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
@@ -66,18 +60,17 @@
 
 <div class="w3-row w3-center w3-dark-grey w3-padding-16"></div>
 
-<!-- Second Parallax Image with Portfolio Text -->
+<!-- Second Parallax Image -->
 <div class="bgimg-2 w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
     <span class="w3-xxlarge w3-text-white w3-wide">CATS</span>
   </div>
 </div>
 
-<!-- Container (Portfolio Section) -->
+<!-- Container (Cats Section) -->
 <div class="w3-content w3-container w3-padding-64" id="portfolio">
   <h3 class="w3-center">LIST OF CATS</h3>
   <p class="w3-center"><em>Here are some cats.<br> Click on the images to make them bigger.</em></p><br>
-  <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
 
   <div class="w3-row-padding w3-center">
     {% for cat in cat_list %}
@@ -86,7 +79,10 @@
         </div>
     {% endfor %}
   </div>
-  <button class="w3-button w3-padding-large w3-light-grey" style="margin-top:64px" id="my_centered_buttons">ADD MORE</button>
+
+  <form method="get" action="./upload" target="_blank">
+    <button class="w3-button w3-padding-large w3-light-grey" style="margin-top:64px">ADD MORE</button>
+  </form>
 
 </div>
 
@@ -99,7 +95,7 @@
   </div>
 </div>
 
-<!-- Third Parallax Image with Portfolio Text -->
+<!-- Third Parallax Image -->
 <div class="bgimg-3 w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
      <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>

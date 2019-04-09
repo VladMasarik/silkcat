@@ -1,79 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Page Title</title>
+<html>
+<title>Upload</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Times New Roman, Helvetica, sans-serif;
-  margin: 0;
-}
-
-/* Style the header */
-.header {
-  padding: 20px;
-  text-align: center;
-  background: #696969;
-  color: white;
-}
-
-/* Increase the font size of the h1 element */
-.header h1 {
-  font-size: 40px;
-}
-
-
-/* Column container */
-.row {  
-  display: flex;
-  flex-wrap: wrap;
-}
-
-/* Main column */
-.main {   
-  flex: 70%;
-    background-image: url(bk.jpg);
-    padding: 120px;
-    background-repeat: no-repeat;
-    background-position: right top;
-}
-
-</style>
-</head>
+{% load static %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static '/cloudstyle.css' %}">
 <body>
 
-<div class="header">
-  <h1>Would you like to change something?</h1>
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="./#home" class="w3-bar-item w3-button">HOME</a>
+    <a href="./#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ABOUT</a>
+    <a href="./#portfolio" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> CATS</a>
+    <a href="./#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> CONTACT</a>
+  </div>
 </div>
 
-<div class="row">
+<div class="w3-row w3-center w3-white w3-padding-large"></div>
+<div class="w3-row w3-center w3-white w3-padding-large"></div>
+
+<!-- First Parallax Image with Logo Text -->
+<div class="bgimg-5 w3-display-container w3-opacity-min" id="home">
+  <div class="w3-display-middle" style="white-space:nowrap;">
+    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">Edit info.</span>
+  </div>
+</div>
+
+<div class="w3-row w3-center w3-dark-grey w3-padding-16"></div>
+<div class="w3-row w3-center w3-white w3-padding-16"></div>
+  
+<div class="w3-row-padding w3-center">
   <div class="main">
-      <p>Name: {{name}}</p>
-      <p>Size: {{size}}</p>
-      <p>Color: {{color}}</p>
-      <div id="image_div">
-        Click to upload an image:
-      <button onclick="Image()">Upload image</button>
-    </div>
-
-<script>
-  
-function Image() {
-  var x = document.createElement("INPUT");
-  x.setAttribute("type", "file");
-  B=document.getElementById("image_div");
-  B.appendChild(x);
-}
-</script>
-
-   
+    <p>Name: {{name}}</p>
+    <p>Size: {{size}}</p>
+    <p>Color: {{color}}</p>  
+  </div>   
 </div>
-  
+
+<div class="w3-row w3-center w3-white w3-padding-16"></div>
+<div class="w3-row w3-center w3-dark-grey w3-padding-16"></div>
 
 </body>
 </html>
