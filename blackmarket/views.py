@@ -44,44 +44,36 @@ def detail(request, id):
     return HttpResponse(render(request, "bm/detail.html", context))
 
 
+@csrf_exempt
 def edit(request, id):
     cat = Cat.objects.get(id=id)
 
     if request.method == 'POST':
         form = TextInputForm(request.POST)
-        form2 = ImageInputForm(request.POST, request.FILES)
-        if form.is_valid() and form2.is_valid():
+        form2 = EditImageInputForm(request.POST, request.FILES)
+        if form.is_valid():
             cat.name = form.cleaned_data["name"]
             cat.size = form.cleaned_data["size"]
             cat.color = form.cleaned_data["color"]
+            cat.save()
+        
+        if  form2.is_valid() and form2.cleaned_data["img"] != None:
             cat.image = form2.cleaned_data["img"]
             cat.save()
 
-    form = EditTextInputForm(cat.name, cat.size, cat.color)
-    imgform = ImageInputForm()
-    url = cat.image.url
-    url = url.replace("edit/","")
-    print(url)
+    dic = {
+        "name": cat.name,
+        "size": cat.size,
+        "color": cat.color
+    }
+    form = EditTextInputForm(initial=dic)
+    imgform = EditImageInputForm()
     context = {
         "form": form,
         "imageinput": imgform,
         "cat": cat,
-        "url": url
     }
     return HttpResponse(render(request, "bm/edit.html", context))
-
-
-
-
-
-    # context = {
-    #     "name" : cat.name,
-    #     "size" : cat.size,
-    #     "color" : cat.color,
-    #     "image" : cat.image_path,
-    #     "id": cat.id
-    # }
-    # return HttpResponse(render(request, "bm/edit.html", context))
 
 
 @csrf_exempt
@@ -117,10 +109,10 @@ class TextInputForm(forms.Form):
 class ImageInputForm(forms.Form):
     img = forms.ImageField()
 
-class EditTextInputForm(forms.Form):
+class EditImageInputForm(forms.Form):
+    img = forms.ImageField(required=False)
 
-    def __init__(self, name, size, color):
-        forms.Form.__init__(self)
-        name = forms.CharField(label='Cats name', empty_value=name, max_length=100)
-        size = forms.CharField(label='Cats size', empty_value=size, max_length=100)
-        color = forms.CharField(label='Cats color', empty_value=color, max_length=100)
+class EditTextInputForm(forms.Form):
+    name = forms.CharField(label='Cats name', max_length=100)
+    size = forms.CharField(label='Cats size', max_length=100)
+    color = forms.CharField(label='Cats color', max_length=100)
