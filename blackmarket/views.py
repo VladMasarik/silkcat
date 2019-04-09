@@ -102,17 +102,17 @@ def delete(request, id):
     return HttpResponse()
 
 class TextInputForm(forms.Form):
-    name = forms.CharField(label='Cats name', max_length=100)
-    size = forms.CharField(label='Cats size', max_length=100)
-    color = forms.CharField(label='Cats color', max_length=100)
+    name = forms.CharField(label='Cat name', max_length=100)
+    size = forms.CharField(label='Cat size', max_length=100)
+    color = forms.CharField(label='Cat color', max_length=100)
 
 class ImageInputForm(forms.Form):
-    img = forms.ImageField()
+    img = forms.ImageField(label='Kitty image:')
 
 class EditImageInputForm(forms.Form):
-    img = forms.ImageField(required=False)
+    img = forms.ImageField(required=False, label='Kitty image:')
 
 class EditTextInputForm(forms.Form):
-    name = forms.CharField(label='Cats name', max_length=100)
-    size = forms.CharField(label='Cats size', max_length=100)
-    color = forms.CharField(label='Cats color', max_length=100)
+    name = forms.CharField(label='Cat name', max_length=100)
+    size = forms.CharField(label='Cat size', max_length=100)
+    color = forms.CharField(label='Cat color', max_length=100)
