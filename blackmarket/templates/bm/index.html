@@ -82,8 +82,7 @@
   <ul>
       {% for cat in cat_list %}
           <li>{{ cat.name }} || {{ cat.size}} || {{cat.color}} || id: {{cat.id}}</li>
-          {% load static %}
-          <img src="{% static 'blackmarket/' %}{{ cat.image_path }}" alt="Katto">
+          <img src="{{ cat.image.url }}" alt="Katto">
       {% endfor %}
       </ul>
   <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->

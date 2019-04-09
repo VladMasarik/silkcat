@@ -60,21 +60,17 @@ def edit(request, id):
 @csrf_exempt
 def upload(request):
     if request.method == 'POST':
-        print("method>>>",request.method)
-        form = ImaageForm(request.POST)
-        form2 = OneForm(request.POST, request.FILES)
-        print("Errors:", form.errors.as_data())
-        print("form>>>",form)
-        print("valid>>", form.is_valid())
-        if form.is_valid():
-            print("<<<<<<", form.cleaned_data, ">>>>>>>>>")
-        print("Errors:", form2.errors.as_data())
-        print("form>>>",form2)
-        print("valid>>", form2.is_valid())
-        if form2.is_valid():
-            print("<<<<<<", form2.cleaned_data, ">>>>>>>>>")
-    form = ImaageForm()
-    imgform = OneForm()
+        form = TextInputForm(request.POST)
+        form2 = ImageInputForm(request.POST, request.FILES)
+        if form.is_valid() and form2.is_valid():
+            cat = Cat()
+            cat.name = form.cleaned_data["name"]
+            cat.size = form.cleaned_data["size"]
+            cat.color = form.cleaned_data["color"]
+            cat.image = form2.cleaned_data["img"]
+            cat.save()
+    form = TextInputForm()
+    imgform = ImageInputForm()
     context = {
         "form": form,
         "imageinput": imgform
@@ -86,10 +82,10 @@ def delete(request, id):
     Cat.objects.get(id=id).delete()
     return HttpResponse()
 
-class ImaageForm(forms.Form):
+class TextInputForm(forms.Form):
     name = forms.CharField(label='Cats name', max_length=100)
     size = forms.CharField(label='Cats size', max_length=100)
     color = forms.CharField(label='Cats color', max_length=100)
 
-class OneForm(forms.Form):
+class ImageInputForm(forms.Form):
     img = forms.ImageField()
