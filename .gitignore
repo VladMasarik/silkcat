@@ -1,2 +1,4 @@
 *pycache*
 *.vscode
+*db.sqlite3
+*static/blackmarket/*
