@@ -44,3 +44,9 @@ body, html {
     min-height: 400px;
   }
 }
+.category {
+  position:relative;
+  display: inline-block;
+  float:left;
+  padding:10px;
+}
