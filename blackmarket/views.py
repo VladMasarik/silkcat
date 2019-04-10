@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from blackmarket.models import Cat
 from django import forms
@@ -98,7 +98,7 @@ def upload(request):
 
 def delete(request, id):
     Cat.objects.get(id=id).delete()
-    return HttpResponse()
+    return redirect('/')
 
 class TextInputForm(forms.Form):
     name = forms.CharField(label='Cat name', max_length=100)
