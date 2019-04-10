@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from blackmarket.models import Cat
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 
 """
@@ -32,7 +33,17 @@ def index(request):
 
 def detail(request, id):
 
-    cat = Cat.objects.get(id=id)
+    try:
+        int(id)
+    except ValueError:
+        return redirect("/")
+
+    cat = None
+
+    try:
+        cat = Cat.objects.get(id=id)
+    except ObjectDoesNotExist:
+        return redirect("/")
 
     context = {
         "name" : cat.name,
