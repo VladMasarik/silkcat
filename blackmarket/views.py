@@ -22,6 +22,8 @@ def index(request):
         kit.size = i["size"]
         kit.color = i["color"]
         kit.image = i["url"]
+        print(kit.image.name)
+        s.Bucket("kittyfolder").download_file(str(kit.image), "blackmarket/static/blackmarket/{}".format(str(kit.image.name)))
         kit.id = i["iddd"]
         cats.append(kit)
 
