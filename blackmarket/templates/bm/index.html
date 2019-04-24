@@ -76,7 +76,7 @@
     {% for cat in cat_list %}
         <div class="category">
             <a href="./{{ cat.id }}">
-              <img src="{{ cat.image.url }}" style="width:100%" class="w3-hover-opacity" alt="{{ cat.name }}">
+              <img src="/static/blackmarket/{{ cat.image.url }}" style="width:100%" class="w3-hover-opacity" alt="{{ cat.name }}">
             </a>
         </div>
     {% endfor %}

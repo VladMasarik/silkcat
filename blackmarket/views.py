@@ -5,25 +5,29 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 
-"""
-wizard
-long
-bongo
-grumpy
-https://i.imgur.com/AYTaKY9.jpg
-https://7gigzxopz0uiqxo1-zippykid.netdna-ssl.com/wp-content/uploads/2015/07/cat.jpg
-https://img.buzzfeed.com/buzzfeed-static/static/2018-10/5/12/asset/buzzfeed-prod-web-03/sub-buzz-29911-1538758090-1.jpg
-https://www.tapatalk.com/groups/animaluntamed/imageproxy.php?url=http://i917.photobucket.com/albums/ad19/JinenFordragon/541252ef91e16735b792945a4c260111e43225a.jpg
-https://cdn.themindcircle.com/wp-content/uploads/2017/08/funny-cat-fails-1.jpg
-https://sadanduseless.b-cdn.net/wp-content/uploads/2018/08/burrito3.jpg
-ninja
-box
-old school
-"""
+import boto3
+
+
 
 def index(request):
 
-    cats = Cat.objects.all()
+
+    s = boto3.resource('s3')
+    db = boto3.resource('dynamodb')
+    table = db.Table('kittyfolder')
+    cats = []
+    for i in table.scan()["Items"]:
+        kit = Cat()
+        kit.name = i["name"]
+        kit.size = i["size"]
+        kit.color = i["color"]
+        kit.image = i["url"]
+        kit.id = i["iddd"]
+        cats.append(kit)
+
+
+
+
     context = {
         "cat_list": cats,
     }
@@ -33,6 +37,10 @@ def index(request):
 
 def detail(request, id):
 
+    s = boto3.resource('s3')
+    db = boto3.resource('dynamodb')
+    table = db.Table('kittyfolder')
+    
     try:
         int(id)
     except ValueError:
@@ -41,7 +49,29 @@ def detail(request, id):
     cat = None
 
     try:
-        cat = Cat.objects.get(id=id)
+
+        print(id)
+        response = table.get_item(Key={'iddd': int(id)})
+        item = response['Item']
+
+        print(item)
+        
+        cat = Cat()
+
+        cat.name = item["name"]
+        cat.size = item["size"]
+        cat.color = item["color"]
+        cat.image = item["url"]
+        cat.id = item['iddd']
+
+        # "blackmarket/static/blackmarket/{}".format(cat.image.url)
+
+
+        s.Bucket("kittyfolder").download_file(cat.image.url, "blackmarket/static/blackmarket/{}".format(cat.image.url))
+        # cat = Cat.objects.get(id=id)
+        # print(cat.image)
+
+        print(cat)
     except ObjectDoesNotExist:
         return redirect("/")
 
@@ -57,12 +87,63 @@ def detail(request, id):
 
 @csrf_exempt
 def edit(request, id):
-    cat = Cat.objects.get(id=id)
+    #cat = Cat.objects.get(id=id)
+    cat = None
+    s = boto3.resource('s3')
+    db = boto3.resource('dynamodb')
+    table = db.Table('kittyfolder')
 
     if request.method == 'POST':
         form = TextInputForm(request.POST)
         form2 = EditImageInputForm(request.POST, request.FILES)
         if form.is_valid():
+
+
+            table.update_item(
+                Key={
+                    'iddd': int(id)
+                },
+                UpdateExpression='SET color = :val2',
+                ExpressionAttributeValues={
+                    ":val2": form.cleaned_data["color"]
+                }
+            )
+
+            desc = form.cleaned_data["name"]
+            
+            table.update_item(
+                Key={
+                    'iddd': int(id)
+                },
+                UpdateExpression='SET #qqq = :val1',
+                ExpressionAttributeValues={
+                    ':val1': desc
+                },
+                ExpressionAttributeNames={
+                    "#qqq": "name"
+                }
+            )
+
+            table.update_item(
+                Key={
+                    'iddd': int(id)
+                },
+                UpdateExpression='SET size = :val3',
+                ExpressionAttributeValues={
+                    ":val3": form.cleaned_data["size"]
+                }
+            )
+
+
+
+
+
+
+
+
+            cat = Cat()
+
+
             cat.name = form.cleaned_data["name"]
             cat.size = form.cleaned_data["size"]
             cat.color = form.cleaned_data["color"]
@@ -70,9 +151,73 @@ def edit(request, id):
         
         if  form2.is_valid() and form2.cleaned_data["img"] != None:
             cat.image = form2.cleaned_data["img"]
+            print("cat.image.name",cat.image.name)
+
+            hhh = cat.image.name
+
+            table.update_item(
+                Key={
+                    'iddd': int(id)
+                },
+                UpdateExpression='SET #ccc = :val4',
+                ExpressionAttributeValues={
+                    ":val4": cat.image.name
+                },
+                ExpressionAttributeNames={
+                    "#ccc": "url"
+                }
+            )
             cat.save()
+            print("cat.image.name",hhh)
+            s.meta.client.upload_file("blackmarket/static/blackmarket/{}".format(hhh), "kittyfolder", hhh)
+            
 
     imgform = EditImageInputForm()
+
+
+    print(id)
+    response = table.get_item(Key={'iddd': int(id)})
+    item = response['Item']
+
+    print(item)
+    
+    cat = Cat()
+
+    cat.name = item["name"]
+    cat.size = item["size"]
+    cat.color = item["color"]
+    cat.image = item["url"]
+    cat.id = item['iddd']
+
+    # "blackmarket/static/blackmarket/{}".format(cat.image.url)
+
+
+    s.Bucket("kittyfolder").download_file(cat.image.url, "blackmarket/{}".format(cat.image.url))
+
+
+    # response = table.get_item(Key={'iddd': int(id)})
+    # item = response['Item']
+
+    # print(item)
+    # s.Bucket("kittyfolder").download_file(item["url"], "blackmarket/static/blackmarket/{}".format(item["url"]))
+
+
+
+    # tmp = cat
+    # cat = Cat()
+
+    # cat.name = item["name"]
+    # cat.size = item["size"]
+    # cat.color = item["color"]
+    # cat.image = item["url"]
+    # cat.id = item['iddd']
+
+    # "blackmarket/static/blackmarket/{}".format(cat.image.url)
+
+
+
+
+
     name = Name(initial={"name": cat.name})
     size = Size(initial={"size": cat.size})
     color = Color(initial={"color": cat.color})
@@ -92,12 +237,46 @@ def upload(request):
         form = TextInputForm(request.POST)
         form2 = ImageInputForm(request.POST, request.FILES)
         if form.is_valid() and form2.is_valid():
+            s = boto3.resource('s3')
+            db = boto3.resource('dynamodb')
+            table = db.Table('kittyfolder')
+            # print(table.scan()["Items"])
+            ids = []
+            for i in table.scan()["Items"]:
+                ids.append(i["iddd"])
+
+            print(ids)
+
+            num = 0
+            while True:
+                if num in ids:
+                    num += 1
+                    continue
+                print(num)
+                break
+            image = form2.cleaned_data["img"]
+            print("image name",image.name)
+            table.put_item(
+                Item={
+                    "iddd" : num,
+                    'name': form.cleaned_data["name"],
+                    'size': form.cleaned_data["size"],
+                    'color': form.cleaned_data["color"],
+                    'url': image.name,
+                }
+            )
+
+
+
             cat = Cat()
             cat.name = form.cleaned_data["name"]
             cat.size = form.cleaned_data["size"]
             cat.color = form.cleaned_data["color"]
             cat.image = form2.cleaned_data["img"]
             cat.save()
+
+            s.meta.client.upload_file("blackmarket/static/blackmarket/{}".format(image.name), "kittyfolder", image.name)
+
     form = TextInputForm()
     imgform = ImageInputForm()
     context = {
@@ -108,7 +287,15 @@ def upload(request):
 
 
 def delete(request, id):
-    Cat.objects.get(id=id).delete()
+
+    s = boto3.resource('s3')
+    db = boto3.resource('dynamodb')
+    table = db.Table('kittyfolder')
+    table.delete_item(
+        Key={
+            'iddd': int(id)
+        }
+    )
     return redirect('/')
 
 class TextInputForm(forms.Form):
